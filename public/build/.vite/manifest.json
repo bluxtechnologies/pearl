@@ -272,12 +272,12 @@
     "src": "../node_modules/@fontsource/sora/files/sora-latin-ext-700-normal.woff2"
   },
   "main.js": {
-    "file": "assets/main-CvQf8ZMT.js",
+    "file": "assets/main-CVd0kKMJ.js",
     "name": "main",
     "src": "main.js",
     "isEntry": true,
     "css": [
-      "assets/main-_xUVF7L9.css"
+      "assets/main-CE8y27l1.css"
     ],
     "assets": [
       "assets/sora-latin-ext-600-normal-Cue1zdhl.woff2",
