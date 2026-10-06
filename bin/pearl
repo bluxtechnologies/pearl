@@ -1,0 +1,94 @@
+#!/usr/bin/env php
+<?php
+/**
+ * Pearl Framework — CLI Entry Point
+ *
+ * Usage: php bin/pearl <command> [args...]
+ *
+ * This is a thin dispatcher only. Actual command logic lives in
+ * pearl/cli/{command}.php files, kept out of this script so the
+ * dispatcher never needs to change when commands are added.
+ */
+
+declare(strict_types=1);
+
+require dirname(__DIR__) . '/pearl/bootstrap.php';
+require dirname(__DIR__) . '/pearl/paths.php';
+require dirname(__DIR__) . '/pearl/errors.php';
+require dirname(__DIR__) . '/pearl/db.php';
+require dirname(__DIR__) . '/pearl/queue.php';
+require dirname(__DIR__) . '/pearl/mail.php';
+require dirname(__DIR__) . '/pearl/cache.php';
+require dirname(__DIR__) . '/pearl/rate_limit.php';
+require dirname(__DIR__) . '/pearl/api.php';
+
+pearl_register_error_handlers();
+
+/**
+ * Maps command name -> file in pearl/cli/ that handles it.
+ * Each handler file must return a callable: function(array $args): int
+ * The return value is used as the process exit code.
+ */
+$commandMap = [
+    'install' => 'install.php',
+    'make:auth' => 'make-auth.php',
+    'migrate' => 'migrate.php',
+    'migrate:rollback' => 'migrate-rollback.php',
+    'make:migration' => 'make-migration.php',
+    'vite:install' => 'vite-install.php',
+    'vite:build' => 'vite-build.php',
+    'notify:work' => 'notify-work.php',
+    'notify:status' => 'notify-status.php',
+    'session:clear' => 'session-clear.php',
+    'mail:test' => 'mail-test.php',
+    'cache:clear' => 'cache-clear.php',
+    'serve' => 'serve.php',
+    'deploy' => 'deploy.php',
+    'package' => 'package.php',
+    'new' => 'new.php',
+];
+
+$args = $argv;
+array_shift($args); // drop script name
+
+$command = $args[0] ?? null;
+$commandArgs = array_slice($args, 1);
+
+if ($command === null || $command === '--help' || $command === '-h') {
+    echo "Pearl CLI" . PHP_EOL;
+    echo "Usage: php bin/pearl <command> [args...]" . PHP_EOL;
+    echo PHP_EOL;
+
+    if (empty($commandMap)) {
+        echo "No commands registered yet." . PHP_EOL;
+    } else {
+        echo "Available commands:" . PHP_EOL;
+        foreach (array_keys($commandMap) as $name) {
+            echo "  {$name}" . PHP_EOL;
+        }
+    }
+
+    exit(0);
+}
+
+if (!isset($commandMap[$command])) {
+    fwrite(STDERR, "Unknown command: {$command}" . PHP_EOL);
+    fwrite(STDERR, "Run 'php bin/pearl --help' to see available commands." . PHP_EOL);
+    exit(1);
+}
+
+$handlerFile = pearl_path('cli/' . $commandMap[$command]);
+
+if (!is_file($handlerFile)) {
+    fwrite(STDERR, "Command '{$command}' is registered but its handler file is missing: {$handlerFile}" . PHP_EOL);
+    exit(1);
+}
+
+$handler = require $handlerFile;
+
+if (!is_callable($handler)) {
+    fwrite(STDERR, "Handler for '{$command}' did not return a callable." . PHP_EOL);
+    exit(1);
+}
+
+exit($handler($commandArgs));

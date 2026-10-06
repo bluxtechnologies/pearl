@@ -1,0 +1,39 @@
+# Pearl Framework — Apache configuration
+#
+# RewriteBase is fixed at "/" — this only works correctly if your web
+# server's DOCUMENT ROOT points directly AT this public/ folder, not
+# at the project root with public/ as a subfolder.
+#
+#   Correct:   DocumentRoot "/path/to/project/public"
+#   Wrong:     DocumentRoot "/path/to/project" (accessing via /public/...)
+#
+# This is the fix for the original "RewriteBase hardcoded to a dev
+# subfolder" problem: rather than trying to detect/hardcode a subfolder
+# path (fragile — breaks the moment the folder name or environment
+# changes), the document root itself is set correctly once, and
+# RewriteBase never needs to change between environments.
+#
+# In XAMPP: edit httpd-vhosts.conf to add a VirtualHost with
+# DocumentRoot pointing at this public/ folder, rather than accessing
+# the project through htdocs/<project-name>/public/.
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Serve real files/directories directly (compiled assets, etc.)
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Everything else goes through the front controller
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# Prevent directory listing if mod_rewrite isn't available
+Options -Indexes
+
+# Deny access to dotfiles (.env, .git, etc.) if any end up under public/
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>

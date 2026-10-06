@@ -1,0 +1,33 @@
+# =====================================================================
+# Pearl Framework — Queue Worker Systemd Unit
+# Place in: /etc/systemd/system/pearl-worker@.service
+# Enable:   systemctl daemon-reload
+# Start:    systemctl enable --now pearl-worker@1.service pearl-worker@2.service
+# =====================================================================
+
+[Unit]
+Description=Pearl Framework Background Queue Worker %i
+After=network.target mysql.service redis.service
+Wants=mysql.service
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/pearl
+ExecStart=/usr/bin/php /var/www/pearl/bin/pearl notify:work --sleep=2
+Restart=always
+RestartSec=5s
+TimeoutStopSec=60
+KillSignal=SIGTERM
+StandardOutput=append:/var/www/pearl/storage/logs/queue-worker.log
+StandardError=append:/var/www/pearl/storage/logs/queue-worker-error.log
+
+# Security Sandboxing
+NoNewPrivileges=true
+ProtectSystem=full
+ProtectHome=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

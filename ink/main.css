@@ -1,0 +1,23 @@
+/**
+ * Pearl Framework — Stylesheet Entry Point
+ *
+ * Import order matters: Tailwind's base/utilities first, then our
+ * design tokens (@theme, so Tailwind's generated utilities can use
+ * them), then animations (keyframes components.css depends on), then
+ * components last so they can reference both tokens and keyframes.
+ */
+@import "tailwindcss";
+
+/* Tailwind v4's automatic content detection is scoped to Vite's root
+   (ink/, per vite.config.js) and doesn't walk up to sibling
+   directories — so view/ and wire/, where all our classes actually
+   live, were never scanned. Caught during Phase 5 testing: utility
+   classes like text-muted/bg-canvas were silently absent from the
+   compiled CSS despite being used throughout the views. These
+   @source directives fix that explicitly. */
+@source "../view/**/*.php";
+@source "../wire/**/*.php";
+
+@import "./theme.css";
+@import "./animations.css";
+@import "./components.css";

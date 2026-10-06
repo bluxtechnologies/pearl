@@ -1,0 +1,46 @@
+# Pearl Framework — .gitignore
+
+# Environment & Secrets
+.env
+.env.backup
+.env.production
+.env.local
+.env.*
+!.env.example
+!.env.production.example
+
+# Composer & Node Dependencies
+/vendor/
+/node_modules/
+
+# Runtime Storage (preserve folder structure via .gitkeep)
+/storage/cache/*
+!/storage/cache/.gitkeep
+/storage/logs/*
+!/storage/logs/.gitkeep
+/storage/mail/*
+!/storage/mail/.gitkeep
+/storage/queue/pending/*
+!/storage/queue/pending/.gitkeep
+/storage/queue/reserved/*
+!/storage/queue/reserved/.gitkeep
+/storage/queue/failed/*
+!/storage/queue/failed/.gitkeep
+/storage/rate_limits/*
+!/storage/rate_limits/.gitkeep
+/storage/sessions/*
+!/storage/sessions/.gitkeep
+
+# Distribution & Build Outputs
+/dist/
+/public/hot
+
+# Operating System & Editor Artifacts
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.log

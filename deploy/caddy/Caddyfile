@@ -1,0 +1,43 @@
+# =====================================================================
+# Pearl Framework — Production Caddy Configuration
+# Place in: /etc/caddy/Caddyfile
+# Reload:   caddy reload
+# =====================================================================
+
+example.com {
+    root * /var/www/pearl/public
+    encode zstd gzip
+
+    # Serve static assets and Vite builds directly with long-lived cache
+    @static {
+        path /build/* /favicon.ico /robots.txt
+    }
+    header @static Cache-Control "public, max-age=31536000, immutable"
+
+    # Route dynamic PHP requests via PHP-FPM
+    php_fastcgi unix//run/php/php8.4-fpm.sock {
+        try_files {path} {path}/index.php /index.php
+    }
+
+    # Serve static files if they exist
+    file_server
+
+    # Security Headers
+    header {
+        X-Frame-Options "SAMEORIGIN"
+        X-Content-Type-Options "nosniff"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        -Server
+    }
+
+    # Deny access to sensitive files
+    @forbidden {
+        path /.*
+        path /pearl/*
+        path /config/*
+        path /database/*
+        path /storage/*
+        path /wire/*
+    }
+    error @forbidden 404
+}

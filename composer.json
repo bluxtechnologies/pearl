@@ -1,0 +1,60 @@
+{
+    "name": "bluxtechnologies/pearl",
+    "description": "A high-performance, procedural PHP framework with strict security boundaries, isolated dual-context authentication, and zero magic.",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pearl Framework Authors",
+            "homepage": "https://github.com/bluxtechnologies/pearl"
+        }
+    ],
+    "require": {
+        "php": ">=8.3",
+        "ext-pdo": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*"
+    },
+    "suggest": {
+        "ext-redis": "Required to use Redis session, cache, and queue drivers",
+        "ext-curl": "Enables external HTTP requests",
+        "ext-openssl": "Required for cryptographic token generation and TLS mail transport",
+        "ext-pdo_mysql": "Required to use MySQL database engine",
+        "ext-pdo_pgsql": "Required to use PostgreSQL database engine",
+        "ext-pdo_sqlite": "Required to use SQLite database engine"
+    },
+    "bin": [
+        "bin/pearl"
+    ],
+    "autoload": {
+        "files": [
+            "pearl/bootstrap.php",
+            "pearl/paths.php",
+            "pearl/errors.php",
+            "pearl/csp.php",
+            "pearl/request.php",
+            "pearl/response.php",
+            "pearl/view.php",
+            "pearl/icons.php",
+            "pearl/vite.php",
+            "pearl/db.php",
+            "pearl/query.php",
+            "pearl/queue.php",
+            "pearl/mail.php",
+            "pearl/cache.php",
+            "pearl/rate_limit.php",
+            "pearl/session.php",
+            "pearl/session_drivers.php",
+            "pearl/auth.php",
+            "pearl/api.php",
+            "pearl/rbac.php",
+            "pearl/router.php"
+        ],
+        "classmap": [
+            "pearl/query.php",
+            "pearl/session_drivers.php"
+        ]
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

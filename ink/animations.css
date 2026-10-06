@@ -1,0 +1,82 @@
+/**
+ * Pearl Framework — Animations
+ *
+ * The "signature" interaction language tying back to the name: every
+ * focusable element gets the same soft glow-in on focus (a literal
+ * pearlescent luster), and buttons get a contained ripple on click.
+ * Both are subtle and quick — this is restraint applied to motion,
+ * not decoration for its own sake.
+ */
+
+@keyframes pearl-glow-in {
+    from {
+        box-shadow: 0 0 0 0 var(--color-accent-glow);
+    }
+    to {
+        box-shadow: 0 0 0 3px var(--color-accent-glow);
+    }
+}
+
+@keyframes pearl-ripple {
+    to {
+        transform: scale(3.5);
+        opacity: 0;
+    }
+}
+
+@keyframes pearl-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(-2px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* General-purpose focus-glow utility for any CUSTOM element outside
+   Pearl's built-in components — the built-ins (.pearl-btn,
+   .pearl-input, .pearl-checkbox, etc. in components.css) already have
+   this behavior baked directly into their own :focus-visible rules,
+   so this class isn't needed on them. Use it on your own elements to
+   match the same interaction language. */
+.pearl-focusable {
+    transition: border-color 200ms var(--ease-pearl), box-shadow 200ms var(--ease-pearl);
+}
+
+.pearl-focusable:focus-visible {
+    outline: none;
+    border-color: var(--color-accent);
+    animation: pearl-glow-in 250ms var(--ease-pearl) forwards;
+}
+
+/* Ripple: a span injected by main.js on click, positioned at the
+   click coordinates. Uses currentColor at low opacity so it adapts
+   automatically — white ripple on a dark button, accent-colored
+   ripple on a light one — without per-variant configuration. */
+.pearl-ripple-span {
+    position: absolute;
+    border-radius: 9999px;
+    transform: scale(0);
+    background: currentColor;
+    opacity: 0.25;
+    pointer-events: none;
+    animation: pearl-ripple 550ms var(--ease-pearl);
+}
+
+.pearl-animate-in {
+    animation: pearl-fade-in 200ms var(--ease-pearl);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pearl-focusable:focus-visible,
+    .pearl-ripple-span,
+    .pearl-animate-in {
+        animation: none;
+    }
+
+    * {
+        transition-duration: 1ms !important;
+    }
+}

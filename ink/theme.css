@@ -1,0 +1,59 @@
+/**
+ * Pearl Framework — Design Tokens
+ *
+ * Tailwind v4's @theme block turns these into real utility classes
+ * (e.g. --color-accent below becomes bg-accent, text-accent, etc.)
+ * and CSS custom properties usable directly (var(--color-accent)).
+ *
+ * Palette is deliberately small: 6 core neutrals/accent + 3 functional
+ * status colors, all at the same restrained saturation so nothing
+ * competes for attention. No theme-color proliferation.
+ */
+
+/* Self-hosted fonts — no external CDN dependency (relevant for an
+   authenticated admin panel behind CSP, see Phase 6). */
+@import '@fontsource/sora/600.css';
+@import '@fontsource/sora/700.css';
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/jetbrains-mono/400.css';
+@import '@fontsource/jetbrains-mono/500.css';
+
+@theme {
+    /* -- Core neutrals + accent -- */
+    --color-ink: #18181b;
+    --color-canvas: #f7f7f8;
+    --color-surface: #ffffff;
+    --color-border: #e4e4e7;
+    --color-muted: #71717a;
+    --color-muted-2: #a1a1aa;
+
+    --color-accent: #3b5ba9;
+    --color-accent-hover: #2f4a8c;
+    --color-accent-glow: rgb(59 91 169 / 35%);
+
+    /* -- Functional status colors (used only where semantically
+       required — alerts, badges — never decoratively) -- */
+    --color-success: #2f7d5d;
+    --color-success-bg: #eaf5f0;
+    --color-danger: #b4483f;
+    --color-danger-bg: #fbeeed;
+    --color-warning: #b8863a;
+    --color-warning-bg: #faf3e7;
+    --color-info: #3b5ba9;
+    --color-info-bg: #eaeff8;
+
+    /* -- Type -- */
+    --font-display: 'Sora', ui-sans-serif, system-ui, sans-serif;
+    --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+    /* -- Radii: consistent scale, moderate not sharp/pill-everything -- */
+    --radius-pearl-sm: 0.375rem;
+    --radius-pearl-md: 0.5rem;
+    --radius-pearl-lg: 0.75rem;
+
+    /* -- Motion timing, shared by components.css/animations.css -- */
+    --ease-pearl: cubic-bezier(0.16, 1, 0.3, 1);
+}
