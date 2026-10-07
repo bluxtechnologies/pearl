@@ -128,12 +128,12 @@
     "src": "../node_modules/@fontsource/geist-sans/files/geist-sans-latin-700-normal.woff2"
   },
   "main.js": {
-    "file": "assets/main-DYyfw53n.js",
+    "file": "assets/main-Pm_TrkPd.js",
     "name": "main",
     "src": "main.js",
     "isEntry": true,
     "css": [
-      "assets/main-DbuVxbH9.css"
+      "assets/main-BLJ5Je1v.css"
     ],
     "assets": [
       "assets/geist-sans-latin-400-normal-gapTbOY8.woff2",

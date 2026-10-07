@@ -17,6 +17,10 @@ if (!defined('PEARL_ROOT')) {
     define('PEARL_ROOT', dirname(__DIR__));
 }
 
+if (!defined('PEARL_VERSION')) {
+    define('PEARL_VERSION', '1.0.4');
+}
+
 // ---------------------------------------------------------------------
 // Environment loading
 // ---------------------------------------------------------------------

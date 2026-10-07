@@ -19,7 +19,7 @@
                     Pearl
                 </span>
                 <span class="ml-1.5 px-2 py-0.5 rounded-full text-xs font-mono font-medium bg-canvas border border-border text-muted">
-                    v<?= e($pearlVersion ?? '1.0.1') ?>
+                    v<?= e($pearlVersion ?? (defined('PEARL_VERSION') ? PEARL_VERSION : '1.0.4')) ?>
                 </span>
             </a>
 

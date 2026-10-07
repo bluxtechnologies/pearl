@@ -11,5 +11,5 @@ declare(strict_types=1);
 pearl_view('welcome', [
     'title' => 'Pearl — Procedural PHP Framework',
     'phpVersion' => PHP_VERSION,
-    'pearlVersion' => '1.0.0',
+    'pearlVersion' => defined('PEARL_VERSION') ? PEARL_VERSION : '1.0.4',
 ], 'layouts/welcome');

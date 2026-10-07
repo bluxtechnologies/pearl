@@ -5,10 +5,11 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ mode, command }) => {
     const env = loadEnv(mode, process.cwd(), '');
 
     return {
+        base: command === 'serve' ? '/' : (env.ASSET_URL ? `${env.ASSET_URL.replace(/\/$/, '')}/build/` : '/build/'),
         plugins: [
             tailwindcss(),
         ],
